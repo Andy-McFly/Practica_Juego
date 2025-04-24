@@ -17,6 +17,8 @@ import java.awt.TextField;
 //Clase en Progreso. (Borrar este comentario al acabar)
 public class Vista
 {
+	Color clrFondo = new Color(147, 142, 240);
+	
 	//VENTANA Menú Principal
 	Frame vPrincipal = new Frame("Siete y Media");
 	Label lblTitulo = new Label("Menú Principal");
@@ -64,8 +66,11 @@ public class Vista
 	Label lblAviso = new Label("Escribe todos los nombres");
 	
 	//VENTANA Partida (en progreso)
-	//Temporal
-	Frame vProvisional = new Frame("Provisional");
+	//DIÁLOGO Confirmar Salir
+	Dialog dlgConfirmacion = new Dialog(vPrincipal, "Aviso", true);
+	Label lblAvisoSalir = new Label("¿Cancelar partida y volver al menú principal?");
+	Button btnAceptar = new Button("Aceptar");
+	Button btnCancelar = new Button("Cancelar");
 	
 	//VENTANA Fin de ronda (en progreso)
 	
@@ -100,7 +105,7 @@ public class Vista
 		//VENTANA Menú Principal
 		vPrincipal.setLayout(new FlowLayout());
 		vPrincipal.setSize(305, 150);
-		vPrincipal.setBackground(new Color(147, 142, 240));
+		vPrincipal.setBackground(clrFondo);
 		vPrincipal.setResizable(false);
 		vPrincipal.setLocationRelativeTo(null);
 		lblTitulo.setFont(new Font("Arial", Font.BOLD, 16));
@@ -118,7 +123,7 @@ public class Vista
 		//VENTANA Nueva Partida (Número Jugadores)
 		vNuevaPartida.setLayout(new GridLayout(3, 1));
 		vNuevaPartida.setSize(370, 180);
-		vNuevaPartida.setBackground(new Color(147, 142, 240));
+		vNuevaPartida.setBackground(clrFondo);
 		vNuevaPartida.setResizable(true);
 		vNuevaPartida.setLocationRelativeTo(null);
 		lblNumeroJugadores.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -136,7 +141,7 @@ public class Vista
 		vPuntos.setLayout(new GridLayout(2, 1));
 		vPuntos.setSize(340, 340);
 		vPuntos.setResizable(true);
-		vPuntos.setBackground(new Color(147, 142, 240));
+		vPuntos.setBackground(clrFondo);
 		vPuntos.setLocationRelativeTo(null);
 		lista.setFocusable(false);
 		vPuntos.add(lista);
@@ -150,7 +155,7 @@ public class Vista
 		//VENTANA Nueva Partida (Nombre Jugadores)
 		vJ2.setLayout(new FlowLayout());
 		vJ2.setSize(265, 200);
-		vJ2.setBackground(new Color(147, 142, 240));
+		vJ2.setBackground(clrFondo);
 		vJ2.setResizable(false);
 		vJ2.setLocationRelativeTo(null);
 		vJ2.add(lblJugador1);
@@ -171,12 +176,15 @@ public class Vista
 		dlgNombreVacio.add(lblAviso);
 		
 		//VENTANA Partida (en progreso)
-		//Temporal
-		vProvisional.setLayout(new FlowLayout());
-		vProvisional.setSize(400, 400);
-		vProvisional.setBackground(new Color(147, 142, 240));
-		vProvisional.setResizable(false);
-		vProvisional.setLocationRelativeTo(null);
+		//DIÁLOGO Confirmar Salir
+		dlgConfirmacion.setLayout(new FlowLayout());
+		dlgConfirmacion.setSize(300, 130);
+		dlgConfirmacion.setLocationRelativeTo(null);
+		dlgConfirmacion.setBackground(Color.lightGray);
+		dlgConfirmacion.setResizable(false);
+		dlgConfirmacion.add(lblAvisoSalir);
+		dlgConfirmacion.add(btnAceptar);
+		dlgConfirmacion.add(btnCancelar);
 		
 		//VENTANA Fin de ronda (en progreso)
 		
@@ -193,7 +201,7 @@ public class Vista
 		lblInfoPasar.setAlignment(Label.CENTER);
 		dlgPasar.add(lblAvisoPasar);
 		dlgPasar.add(lblInfoPasar);
-		btnOk.setBackground(new Color(147, 142, 240));
+		btnOk.setBackground(clrFondo);
 		dlgPasar.add(btnOk);
 		
 		//DIÁLOGO Plantarse
@@ -207,7 +215,7 @@ public class Vista
 		lblInfoPlantar.setAlignment(Label.CENTER);
 		dlgPlantar.add(lblAvisoPlantar);
 		dlgPlantar.add(lblInfoPlantar);
-		btnOk2.setBackground(new Color(147, 142, 240));
+		btnOk2.setBackground(clrFondo);
 		dlgPlantar.add(btnOk2);
 		
 		//DIÁLOGO Siete y Medio (en progreso)

@@ -12,6 +12,7 @@ public class Controlador implements WindowListener, ActionListener
 	Vista vista;
 	Connection connection = null;
 	int jugadores;
+	String Jugador1, Jugador2, Jugador3, Jugador4;
 	
 	public Controlador(Modelo m, Vista v) 
 	{
@@ -23,9 +24,9 @@ public class Controlador implements WindowListener, ActionListener
 		v.vPuntos.addWindowListener(this);
 		v.vJ2.addWindowListener(this);
 		v.dlgNombreVacio.addWindowListener(this);
-		v.vProvisional.addWindowListener(this); //Temporal
 		v.dlgPasar.addWindowListener(this);
 		v.dlgPlantar.addWindowListener(this);
+		v.dlgConfirmacion.addWindowListener(this);
 		
 		//Botones (en progreso)
 		v.btnNueva.addActionListener(this);
@@ -36,6 +37,8 @@ public class Controlador implements WindowListener, ActionListener
 		v.btnSalir.addActionListener(this);
 		v.btnOk.addActionListener(this);
 		v.btnOk2.addActionListener(this);
+		v.btnAceptar.addActionListener(this);
+		v.btnCancelar.addActionListener(this);
 		
 	}
 	
@@ -50,7 +53,6 @@ public class Controlador implements WindowListener, ActionListener
 			vista.txfnombre2.setText("");
 			vista.txfnombre3.setText("");
 			vista.txfnombre4.setText("");
-			vista.vPrincipal.setVisible(false);
 			vista.vNuevaPartida.setVisible(true);
 		}
 		
@@ -125,7 +127,7 @@ public class Controlador implements WindowListener, ActionListener
 					if ((modelo.altaJugador(connection, vista.txfnombre1.getText())) 
 							&& (modelo.altaJugador(connection, vista.txfnombre2.getText())))
 					{
-						vista.vProvisional.setVisible(true);
+						new Partida(vista);
 						vista.vJ2.dispose();
 					}
 					else 
@@ -152,7 +154,7 @@ public class Controlador implements WindowListener, ActionListener
 							&& (modelo.altaJugador(connection, vista.txfnombre2.getText()))
 							&& (modelo.altaJugador(connection, vista.txfnombre3.getText())))
 					{
-						vista.vProvisional.setVisible(true);
+						new Partida(vista);
 						vista.vJ2.dispose();
 					} 
 					else 
@@ -180,7 +182,7 @@ public class Controlador implements WindowListener, ActionListener
 							&& (modelo.altaJugador(connection, vista.txfnombre3.getText()))
 							&& (modelo.altaJugador(connection, vista.txfnombre4.getText())))
 					{
-						vista.vProvisional.setVisible(true);
+						new Partida(vista);
 						vista.vJ2.dispose();
 					} 
 					else 
@@ -213,7 +215,15 @@ public class Controlador implements WindowListener, ActionListener
 		//BOTÓN Volver2
 		
 	//VENTANA Partida (en progreso)
-		
+		//DIÁLOGO Confirmar Salir
+		else if (e.getSource().equals(vista.btnAceptar)) 
+		{
+			vista.dlgConfirmacion.dispose();
+		}
+		else if (e.getSource().equals(vista.btnCancelar)) 
+		{
+			vista.dlgConfirmacion.dispose();
+		}
 	//VENTANA Fin de ronda (en progreso)
 		
 	//VENTANA Fin de partida (en progreso)
@@ -261,11 +271,6 @@ public class Controlador implements WindowListener, ActionListener
 			vista.vJ2.dispose();
 			vista.vPrincipal.setVisible(true);
 		}
-		else if(e.getSource().equals(vista.vProvisional)) //Temporal
-		{
-			vista.vProvisional.dispose();
-			vista.vPrincipal.setVisible(true);
-		}
 		else if(e.getSource().equals(vista.dlgPasar)) 
 		{
 			vista.dlgPasar.dispose();
@@ -277,10 +282,7 @@ public class Controlador implements WindowListener, ActionListener
 		
 	}
 
-	@Override public void windowActivated(WindowEvent e){}
-	@Override public void windowClosed(WindowEvent e){}
-	@Override public void windowDeactivated(WindowEvent e){}
-	@Override public void windowDeiconified(WindowEvent e){}
-	@Override public void windowIconified(WindowEvent e){}
-	@Override public void windowOpened(WindowEvent e){}
+	@Override public void windowActivated(WindowEvent e){}@Override public void windowClosed(WindowEvent e){}
+	@Override public void windowDeactivated(WindowEvent e){}@Override public void windowDeiconified(WindowEvent e){}
+	@Override public void windowIconified(WindowEvent e){}@Override public void windowOpened(WindowEvent e){}
 }
