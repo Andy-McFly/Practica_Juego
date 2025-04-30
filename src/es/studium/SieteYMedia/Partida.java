@@ -46,6 +46,7 @@ public class Partida extends Frame implements WindowListener, ActionListener, Mo
 	float puntosTotalesJ1, puntosTotalesJ2, puntosTotalesJ3, puntosTotalesJ4;
 	float puntosMaximos, puntosRonda;
 	boolean efectoMazo = false;
+	boolean empate = false;
 	
 	//VENTANA Partida en curso
 	public Partida(Vista v, Modelo m)
@@ -59,6 +60,7 @@ public class Partida extends Frame implements WindowListener, ActionListener, Mo
 		nombreJugador4 = vista.txfnombre4.getText();
 		turno = 1;
 		ronda = 1;
+		empate = false;
 		puntosRondaJ1 = 0;
 		puntosRondaJ2 = 0;
 		puntosRondaJ3 = 0;
@@ -331,15 +333,26 @@ public class Partida extends Frame implements WindowListener, ActionListener, Mo
 		//Fin de Partida
 		else if (e.getSource().equals(vista.btnMenuPrin)) 
 		{
-			connection = modelo.conectar();
-			modelo.altaJugador(connection, vista.lblGanador.getText(), Float.parseFloat(vista.lblPuntos.getText()));
-//			modelo.actualizarTop10(connection);
-			modelo.desconectar(connection);
 			turno = 1;
 			ronda = 1;
 			jugadores = 0;
-			dispose();
-			vista.vFinPartida.setVisible(false);
+			
+			if (empate) 
+			{
+				dispose();
+				vista.vFinPartida.setVisible(false);
+			}
+			else 
+			{
+				connection = modelo.conectar();
+				modelo.altaJugador(connection, vista.lblGanador.getText(), Float.parseFloat(vista.lblPuntos.getText()));
+//				modelo.actualizarTop10(connection);
+				modelo.desconectar(connection);
+				dispose();
+				vista.vFinPartida.setVisible(false);
+			}
+			
+			
 		}
 		
 		//Plantarse Botón
@@ -369,7 +382,7 @@ public class Partida extends Frame implements WindowListener, ActionListener, Mo
 				break;
 			}
 			repaint();
-			
+			modelo.SonidoPlantarse();
 			vista.dlgPlantar.setVisible(true);
 		}
 		//Pasarse
@@ -448,6 +461,7 @@ public class Partida extends Frame implements WindowListener, ActionListener, Mo
 		{
 			colocarCarta++;
 			repaint();
+			modelo.SonidoCarta();
 			// Se aplica el valor de las cartas en el tablero a los puntos de la ronda
 			puntosRonda = puntosRonda + obtenerPuntosRonda(valorCarta);
 			// Identificamos el valor de las dos primeras cartas con el segundo carácter
@@ -483,6 +497,7 @@ public class Partida extends Frame implements WindowListener, ActionListener, Mo
 					puntosRondaJ4 = puntosRondaJ4 + 30;
 					break;
 				}
+				modelo.SonidoPlantarse();
 				vista.dlgSieteReal.setVisible(true);
 			}
 			// Siete y Media normal
@@ -503,11 +518,13 @@ public class Partida extends Frame implements WindowListener, ActionListener, Mo
 					puntosRondaJ4 = puntosRondaJ4 + 10;
 					break;
 				}
+				modelo.SonidoPlantarse();
 				vista.dlgSieteMedio.setVisible(true);
 			}
 			// Si el jugador se pasa del 7.5
 			else if (puntosRonda > 7.5)
 			{
+				modelo.SonidoPasarse();
 				vista.dlgPasar.setVisible(true);
 			}
 			repaint();
@@ -558,6 +575,7 @@ public class Partida extends Frame implements WindowListener, ActionListener, Mo
 				puntosRondaJ2 = 0;
 				puntosRondaJ3 = 0;
 				puntosRondaJ4 = 0;
+				modelo.SonidoGanador();
 				vista.vFinPartida.setVisible(true);
 				//Ayuda para el desarrollo. No influye en la partida
 				System.out.println(puntosTotalesJ1+ " " + puntosTotalesJ2 + " " + puntosTotalesJ3 + " " + puntosTotalesJ4);
@@ -573,6 +591,7 @@ public class Partida extends Frame implements WindowListener, ActionListener, Mo
 				puntosRondaJ2 = 0;
 				puntosRondaJ3 = 0;
 				puntosRondaJ4 = 0;
+				modelo.SonidoRonda();
 				vista.vFinRonda.setVisible(true);
 				ronda++;
 				//Ayuda para el desarrollo. No influye en la partida
@@ -697,7 +716,11 @@ public class Partida extends Frame implements WindowListener, ActionListener, Mo
 		if (contador>1) 
 		{
 			ganador = "Empate!";
+			vista.lblInfPuntos.setText("Han empatado con una puntuación de :");
 			vista.lblGanador.setForeground(Color.gray);
+			vista.lblPuntos.setText(puntosMaximos+"");
+			vista.lblPuntos.setForeground(Color.gray);
+			empate = true;
 		}
 		
 		return ganador;

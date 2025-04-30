@@ -8,7 +8,6 @@ import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Frame;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.awt.Panel;
@@ -80,6 +79,8 @@ public class Vista
 	Label lblInfGanadorR = new Label("Ganador de la Ronda: ");
 	Label lblGanadorR = new Label("Ganador"); //Se modifica al finalizar la ronda
 	Button btnSigRonda = new Button("Siguiente Ronda");
+	Panel panelRonda = new Panel();
+	Panel panelRonda2 = new Panel();
 	
 		//DIÁLOGO Fin de partida
 	Dialog vFinPartida = new Dialog(vPrincipal, "Fin de la Partida", true);
@@ -244,19 +245,22 @@ public class Vista
 		dlgConfirmacion.add(btnCancelar);
 		
 			//VENTANA Fin de ronda
-		vFinRonda.setLayout(new FlowLayout());
+		vFinRonda.setLayout(new GridLayout(3, 1));
 		vFinRonda.setSize(305, 175);
 		vFinRonda.setBackground(clrFondo);
 		vFinRonda.setResizable(false);
 		vFinRonda.setLocationRelativeTo(null);
 		lblFRonda.setForeground(clrBotones);
+		lblFRonda.setAlignment(Label.CENTER);
 		vFinRonda.add(lblFRonda);
 		lblInfGanadorR.setForeground(clrBotones);
-		vFinRonda.add(lblInfGanadorR);
 		lblGanadorR.setFont(new Font("Arial", Font.BOLD, 14));
-		vFinRonda.add(lblGanadorR);
+		panelRonda.add(lblInfGanadorR);
+		panelRonda.add(lblGanadorR);
+		vFinRonda.add(panelRonda);
 		btnSigRonda.setBackground(clrBotones);
-		vFinRonda.add(btnSigRonda);
+		panelRonda2.add(btnSigRonda);
+		vFinRonda.add(panelRonda2);
 		
 			//VENTANA Fin de partida
 		vFinPartida.setLayout(new GridLayout(5, 1));
@@ -364,10 +368,5 @@ public class Vista
 		btnOk4.setBackground(clrBotones);
 		panelSReal.add(btnOk4);
 		dlgSieteReal.add(panelSReal);
-	}
-	
-	public void paint(Graphics g) 
-	{
-		
 	}
 }

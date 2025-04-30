@@ -1,5 +1,7 @@
 package es.studium.SieteYMedia;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -7,7 +9,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Random;
 
-//Clase en Progreso. (Borrar este comentario al acabar)
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 public class Modelo
 {
 	// DATOS necesarios para el acceso
@@ -20,6 +30,10 @@ public class Modelo
 	Connection connection = null;
 	Statement statement = null;
 	ResultSet resultset = null;
+	//SONIDO
+	File sf;
+	AudioFileFormat aff;
+	AudioInputStream ais;
 	
 	Random random = new Random();
 
@@ -136,4 +150,155 @@ public class Modelo
 //	{
 //		En progreso
 //	}
+	
+	//SONIDO al poner una carta
+	public void SonidoCarta() 
+	{
+		File sf = new File("sonido\\Cartas.wav");
+		try
+		{
+			aff = AudioSystem.getAudioFileFormat(sf);
+			ais = AudioSystem.getAudioInputStream(sf);
+			AudioFormat af = aff.getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, ais.getFormat(),
+					((int) ais.getFrameLength() * af.getFrameSize()));
+			Clip ol = (Clip) AudioSystem.getLine(info);
+			ol.open(ais);
+			ol.loop(Clip.LOOP_CONTINUOUSLY);
+			Thread.sleep(100);
+			ol.close();
+		} catch (UnsupportedAudioFileException ee)
+		{
+			System.out.println(ee.getMessage());
+		} catch (IOException ea)
+		{
+			System.out.println(ea.getMessage());
+		} catch (LineUnavailableException LUE)
+		{
+			System.out.println(LUE.getMessage());
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	//SONIDO al ganar
+	public void SonidoGanador() 
+	{
+		File sf = new File("sonido\\Ganar.wav");
+		try
+		{
+			aff = AudioSystem.getAudioFileFormat(sf);
+			ais = AudioSystem.getAudioInputStream(sf);
+			AudioFormat af = aff.getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, ais.getFormat(),
+					((int) ais.getFrameLength() * af.getFrameSize()));
+			Clip ol = (Clip) AudioSystem.getLine(info);
+			ol.open(ais);
+			ol.loop(Clip.LOOP_CONTINUOUSLY);
+			Thread.sleep(860);
+			ol.close();
+		} catch (UnsupportedAudioFileException ee)
+		{
+			System.out.println(ee.getMessage());
+		} catch (IOException ea)
+		{
+			System.out.println(ea.getMessage());
+		} catch (LineUnavailableException LUE)
+		{
+			System.out.println(LUE.getMessage());
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	//SONIDO al empatar
+	public void SonidoRonda() 
+	{
+		File sf = new File("sonido\\Ronda.wav");
+		try
+		{
+			aff = AudioSystem.getAudioFileFormat(sf);
+			ais = AudioSystem.getAudioInputStream(sf);
+			AudioFormat af = aff.getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, ais.getFormat(),
+					((int) ais.getFrameLength() * af.getFrameSize()));
+			Clip ol = (Clip) AudioSystem.getLine(info);
+			ol.open(ais);
+			ol.loop(Clip.LOOP_CONTINUOUSLY);
+			Thread.sleep(618);
+			ol.close();
+		} catch (UnsupportedAudioFileException ee)
+		{
+			System.out.println(ee.getMessage());
+		} catch (IOException ea)
+		{
+			System.out.println(ea.getMessage());
+		} catch (LineUnavailableException LUE)
+		{
+			System.out.println(LUE.getMessage());
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	//SONIDO al plantarse
+	public void SonidoPlantarse() 
+	{
+		File sf = new File("sonido\\Plantarse.wav");
+		try
+		{
+			aff = AudioSystem.getAudioFileFormat(sf);
+			ais = AudioSystem.getAudioInputStream(sf);
+			AudioFormat af = aff.getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, ais.getFormat(),
+					((int) ais.getFrameLength() * af.getFrameSize()));
+			Clip ol = (Clip) AudioSystem.getLine(info);
+			ol.open(ais);
+			ol.loop(Clip.LOOP_CONTINUOUSLY);
+			Thread.sleep(450);
+			ol.close();
+		} catch (UnsupportedAudioFileException ee)
+		{
+			System.out.println(ee.getMessage());
+		} catch (IOException ea)
+		{
+			System.out.println(ea.getMessage());
+		} catch (LineUnavailableException LUE)
+		{
+			System.out.println(LUE.getMessage());
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+	}
+	//SONIDO Pasarse
+	public void SonidoPasarse() 
+	{
+		File sf = new File("sonido\\Pasarse.wav");
+		try
+		{
+			aff = AudioSystem.getAudioFileFormat(sf);
+			ais = AudioSystem.getAudioInputStream(sf);
+			AudioFormat af = aff.getFormat();
+			DataLine.Info info = new DataLine.Info(Clip.class, ais.getFormat(),
+					((int) ais.getFrameLength() * af.getFrameSize()));
+			Clip ol = (Clip) AudioSystem.getLine(info);
+			ol.open(ais);
+			ol.loop(Clip.LOOP_CONTINUOUSLY);
+			Thread.sleep(525);
+			ol.close();
+		} catch (UnsupportedAudioFileException ee)
+		{
+			System.out.println(ee.getMessage());
+		} catch (IOException ea)
+		{
+			System.out.println(ea.getMessage());
+		} catch (LineUnavailableException LUE)
+		{
+			System.out.println(LUE.getMessage());
+		} catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+	}
 }
