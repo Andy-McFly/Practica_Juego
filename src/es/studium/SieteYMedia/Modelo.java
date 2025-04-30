@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Random;
 
 //Clase en Progreso. (Borrar este comentario al acabar)
 public class Modelo
@@ -19,6 +20,9 @@ public class Modelo
 	Connection connection = null;
 	Statement statement = null;
 	ResultSet resultset = null;
+	
+	Random random = new Random();
+
 
 	// Conectar a la base de datos
 	public Connection conectar()
@@ -61,13 +65,13 @@ public class Modelo
 
 		try
 		{
-			sentencia = "SELECT * FROM jugadores ORDER BY puntosJugador DESC , nombreJugador";
+			sentencia = "SELECT * FROM jugadores ORDER BY puntosJugador DESC , nombreJugador;";
 			statement = connection.createStatement();
 			resultset = statement.executeQuery(sentencia);
 			while (resultset.next())
 			{
 				contenidoTextarea = contenidoTextarea + resultset.getInt("idJugador") + " -- "
-						+ resultset.getString("nombreJugador") + " -- " + resultset.getInt("puntosJugador") + "\n";
+						+ resultset.getString("nombreJugador") + " -- " + resultset.getFloat("puntosJugador") + "\n";
 			}
 		} 
 		catch (SQLException e)
@@ -77,14 +81,14 @@ public class Modelo
 		return contenidoTextarea;
 	}
 	
-	//Introducir nombres de jugadores
-	public boolean altaJugador(Connection connection, String nombre)
+	//Introducir nombres de ganadores
+	public boolean altaJugador(Connection connection, String nombre, float puntos)
 	{
 		boolean resultado = false;
 		try
 		{
 			statement = connection.createStatement();
-			sentencia = "INSERT INTO jugadores VALUES (null,'" + nombre + "', "+ 0 +");";
+			sentencia = "INSERT INTO jugadores VALUES (null,'" + nombre + "', "+ puntos +");";
 			statement.executeUpdate(sentencia);
 			resultado = true;
 		} 
@@ -94,4 +98,42 @@ public class Modelo
 		}
 		return resultado;
 	}
+	//Comprobar si algún nombre introducido existe ya en el ranking
+	public boolean comprobarNombre(Connection connection, String nombreJugador)
+	{
+		boolean resultado = false;
+		try
+		{
+			sentencia = "SELECT nombreJugador FROM jugadores WHERE nombreJugador = '" + nombreJugador +"';";
+			statement = connection.createStatement();
+			resultset = statement.executeQuery(sentencia);
+			
+			if (resultset.next()) 
+			{
+				resultado = true;
+			}
+		} 
+		catch (SQLException e)
+		{
+			System.out.println("Error en la sentencia SQL");
+		}
+		return resultado;
+	}
+	//Barajar cartas
+	public String[] barajar(String[] cartas) 
+	{
+		for(int i = 0; i<cartas.length; i++) 
+		{
+			int mezcla = random.nextInt(cartas.length);
+			String cambio = cartas[mezcla];
+			cartas[mezcla] = cartas[i];
+			cartas[i] = cambio;
+		}
+		return cartas;
+	}
+	
+//	public void actualizarTop10(Connection connection)
+//	{
+//		En progreso
+//	}
 }

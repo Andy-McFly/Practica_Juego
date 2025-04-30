@@ -12,34 +12,28 @@ public class Controlador implements WindowListener, ActionListener
 	Vista vista;
 	Connection connection = null;
 	int jugadores;
-	String Jugador1, Jugador2, Jugador3, Jugador4;
+	String jugador1, jugador2, jugador3, jugador4;
 	
 	public Controlador(Modelo m, Vista v) 
 	{
 		modelo = m;
 		vista = v;
-		//Ventanas (en progreso)
+		//Ventanas
 		v.vPrincipal.addWindowListener(this);
 		v.vNuevaPartida.addWindowListener(this);
 		v.vPuntos.addWindowListener(this);
 		v.vJ2.addWindowListener(this);
 		v.dlgNombreVacio.addWindowListener(this);
-		v.dlgPasar.addWindowListener(this);
-		v.dlgPlantar.addWindowListener(this);
-		v.dlgConfirmacion.addWindowListener(this);
 		
-		//Botones (en progreso)
+		//Botones
 		v.btnNueva.addActionListener(this);
 		v.btnContinuar.addActionListener(this);
 		v.btnIniciar.addActionListener(this);
 		v.btnPuntuaciones.addActionListener(this);
 		v.btnVolver.addActionListener(this);
 		v.btnSalir.addActionListener(this);
-		v.btnOk.addActionListener(this);
-		v.btnOk2.addActionListener(this);
 		v.btnAceptar.addActionListener(this);
 		v.btnCancelar.addActionListener(this);
-		
 	}
 	
 	@Override
@@ -76,8 +70,8 @@ public class Controlador implements WindowListener, ActionListener
 			System.exit(0);
 		}
 		
-	//VENTANA NUEVA PARTIDA
-		//BOTÓN Continuar... (Seleccionar número de jugadores)
+	//VENTANA NUEVA PARTIDA (Seleccionar número de jugadores)
+		//BOTÓN Continuar... 
 		else if (e.getSource().equals(vista.btnContinuar))
 		{
 			if(vista.chk2.getState()==true)
@@ -118,26 +112,40 @@ public class Controlador implements WindowListener, ActionListener
 		// BOTÓN Iniciar Partida (Escribir nombre de jugadores)
 		else if (e.getSource().equals(vista.btnIniciar))
 		{
+			jugador1 = vista.txfnombre1.getText();
+			jugador2 = vista.txfnombre2.getText();
+			jugador3 = vista.txfnombre3.getText();
+			jugador4 = vista.txfnombre4.getText();
+			
 			switch(jugadores) 
 			{
 			case 2:
-				if((!vista.txfnombre1.getText().isBlank()) && (!vista.txfnombre2.getText().isBlank())) 
+				//Si los nombres no están en blanco
+				if((!jugador1.isBlank()) && (!jugador2.isBlank())) 
 				{
-					connection = modelo.conectar();
-					if ((modelo.altaJugador(connection, vista.txfnombre1.getText())) 
-							&& (modelo.altaJugador(connection, vista.txfnombre2.getText())))
+					//Si los nombres no son iguales
+					if(!jugador1.equals(jugador2)) 
 					{
-						new Partida(vista);
-						vista.vJ2.dispose();
+						//Comprobar que los nombres no esén ya registrados en el Top 10
+						connection = modelo.conectar();
+						if ((modelo.comprobarNombre(connection, jugador1)) || (modelo.comprobarNombre(connection, jugador2))) 
+						{
+							vista.lblAviso.setText("El nombre introducido ya existe");
+							vista.dlgNombreVacio.setVisible(true);
+						}
+						else 
+						{
+							new Partida(vista, modelo);
+							vista.vJ2.dispose();
+						}
+						modelo.desconectar(connection);
 					}
+					
 					else 
 					{
-						vista.lblAviso.setText("El nombre introducido ya existe");
+						vista.lblAviso.setText("Los nombres deben ser distintos");
 						vista.dlgNombreVacio.setVisible(true);
 					}
-					
-					modelo.desconectar(connection);
-					
 				}
 				else 
 				{
@@ -145,54 +153,67 @@ public class Controlador implements WindowListener, ActionListener
 					vista.dlgNombreVacio.setVisible(true);
 				}
 				break;
+				
 			case 3:
-				if((!vista.txfnombre1.getText().isBlank()) && (!vista.txfnombre2.getText().isBlank())
-						&& (!vista.txfnombre3.getText().isBlank())) 
+				if((!jugador1.isBlank()) && (!jugador2.isBlank()) && (!jugador3.isBlank())) 
 				{
-					connection = modelo.conectar();
-					if ((modelo.altaJugador(connection, vista.txfnombre1.getText())) 
-							&& (modelo.altaJugador(connection, vista.txfnombre2.getText()))
-							&& (modelo.altaJugador(connection, vista.txfnombre3.getText())))
+					if((!jugador1.equals(jugador2)) && (!jugador1.equals(jugador3)) && (!jugador2.equals(jugador3))) 
 					{
-						new Partida(vista);
-						vista.vJ2.dispose();
-					} 
-					else 
-					{
-						vista.lblAviso.setText("El nombre introducido ya existe");
-						vista.dlgNombreVacio.setVisible(true);
+						connection = modelo.conectar();
+						if ((modelo.comprobarNombre(connection, jugador1)) || (modelo.comprobarNombre(connection, jugador2)) 
+								|| (modelo.comprobarNombre(connection, jugador3))) 
+						{
+							vista.lblAviso.setText("El nombre introducido ya existe");
+							vista.dlgNombreVacio.setVisible(true);
+						}
+						else 
+						{
+							new Partida(vista, modelo);
+							vista.vJ2.dispose();
+						}
+						modelo.desconectar(connection);
 					}
 					
-					modelo.desconectar(connection);
-					
+					else 
+					{
+						vista.lblAviso.setText("Los nombres deben ser distintos");
+						vista.dlgNombreVacio.setVisible(true);
+					}
 				}
 				else 
 				{
-					vista.lblAviso.setText("Escribe todos los nombres.");
+					vista.lblAviso.setText("Escribe todos los nombres");
 					vista.dlgNombreVacio.setVisible(true);
 				}
 				break;
+				
 			case 4:
-				if((!vista.txfnombre1.getText().isBlank()) && (!vista.txfnombre2.getText().isBlank()) 
-						&& (!vista.txfnombre3.getText().isBlank()) && (!vista.txfnombre4.getText().isBlank())) 
+				if((!jugador1.isBlank()) && (!jugador2.isBlank()) && (!jugador3.isBlank()) && (!jugador4.isBlank())) 
 				{
-					connection = modelo.conectar();
-					if ((modelo.altaJugador(connection, vista.txfnombre1.getText())) 
-							&& (modelo.altaJugador(connection, vista.txfnombre2.getText()))
-							&& (modelo.altaJugador(connection, vista.txfnombre3.getText()))
-							&& (modelo.altaJugador(connection, vista.txfnombre4.getText())))
+					if((!jugador1.equals(jugador2)) && (!jugador1.equals(jugador3)) && (!jugador1.equals(jugador4)) 
+							&& (!jugador2.equals(jugador3)) && (!jugador2.equals(jugador4)) && (!jugador3.equals(jugador4))) 
 					{
-						new Partida(vista);
-						vista.vJ2.dispose();
-					} 
-					else 
-					{
-						vista.lblAviso.setText("El nombre introducido ya existe");
-						vista.dlgNombreVacio.setVisible(true);
+						connection = modelo.conectar();
+						if ((modelo.comprobarNombre(connection, jugador1)) || (modelo.comprobarNombre(connection, jugador2)) 
+								|| (modelo.comprobarNombre(connection, jugador3)) || (modelo.comprobarNombre(connection, jugador4))) 
+						{
+							vista.lblAviso.setText("El nombre introducido ya existe");
+							vista.dlgNombreVacio.setVisible(true);
+						}
+						else 
+						{
+							new Partida(vista, modelo);
+							vista.vJ2.dispose();
+						}
+						modelo.desconectar(connection);
 					}
 					
-					modelo.desconectar(connection);
 					
+					else 
+					{
+						vista.lblAviso.setText("Los nombres deben ser distintos");
+						vista.dlgNombreVacio.setVisible(true);
+					}
 				}
 				else 
 				{
@@ -212,9 +233,9 @@ public class Controlador implements WindowListener, ActionListener
 		}
 		
 	//VENTANA Ayuda (en progreso)
-		//BOTÓN Volver2
+		//BOTÓN Volver
 		
-	//VENTANA Partida (en progreso)
+	//VENTANA Partida
 		//DIÁLOGO Confirmar Salir
 		else if (e.getSource().equals(vista.btnAceptar)) 
 		{
@@ -224,25 +245,6 @@ public class Controlador implements WindowListener, ActionListener
 		{
 			vista.dlgConfirmacion.dispose();
 		}
-	//VENTANA Fin de ronda (en progreso)
-		
-	//VENTANA Fin de partida (en progreso)
-		
-	//DIÁlOGO Pasarse
-		//BOTÓN OK
-		else if (e.getSource().equals(vista.btnOk))
-		{
-			vista.dlgPasar.dispose();
-		}
-	//DIÁlOGO Plantarse
-		//BOTÓN OK
-		else if (e.getSource().equals(vista.btnOk2))
-		{
-			vista.dlgPlantar.dispose();
-		}
-	//DIÁlOGO Siete y Media (en progreso)
-		
-	//DIÁlOGO Siete y Media Real (en progreso)
 	}
 	
 	@Override
@@ -271,15 +273,6 @@ public class Controlador implements WindowListener, ActionListener
 			vista.vJ2.dispose();
 			vista.vPrincipal.setVisible(true);
 		}
-		else if(e.getSource().equals(vista.dlgPasar)) 
-		{
-			vista.dlgPasar.dispose();
-		}
-		else if(e.getSource().equals(vista.dlgPlantar)) 
-		{
-			vista.dlgPlantar.dispose();
-		}
-		
 	}
 
 	@Override public void windowActivated(WindowEvent e){}@Override public void windowClosed(WindowEvent e){}
