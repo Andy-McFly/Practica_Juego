@@ -316,6 +316,9 @@ public class Partida extends Frame implements WindowListener, ActionListener, Mo
 		//Confirmar Salir
 		if (e.getSource().equals(vista.btnAceptar))
 		{
+			turno = 1;
+			ronda = 1;
+			jugadores = 0;
 			dispose();
 		}
 		

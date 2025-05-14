@@ -2,6 +2,7 @@ package es.studium.SieteYMedia;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -20,17 +21,17 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Modelo
 {
-	// DATOS necesarios para el acceso
+	// Datos para el acceso
 	String driver = "com.mysql.cj.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/ranking";
 	String login = "adminJuego";
 	String password = "123456!";
 	String sentencia = "";
-	// CLASES de objeto para las conexiones
+	// Conexiones
 	Connection connection = null;
 	Statement statement = null;
 	ResultSet resultset = null;
-	//SONIDO
+	//Sonido
 	File sf;
 	AudioFileFormat aff;
 	AudioInputStream ais;
@@ -76,16 +77,18 @@ public class Modelo
 	public String obtenerRanking(Connection connection)
 	{
 		String contenidoTextarea = "";
-
+		int posicion = 1;
+		int top = 0;
 		try
 		{
 			sentencia = "SELECT * FROM jugadores ORDER BY puntosJugador DESC , nombreJugador;";
 			statement = connection.createStatement();
 			resultset = statement.executeQuery(sentencia);
-			while (resultset.next())
+			while ((resultset.next()) && (top<10))
 			{
-				contenidoTextarea = contenidoTextarea + resultset.getInt("idJugador") + " -- "
-						+ resultset.getString("nombreJugador") + " -- " + resultset.getFloat("puntosJugador") + "\n";
+				contenidoTextarea = contenidoTextarea + posicion + " -- " + resultset.getString("nombreJugador") + " -- " + resultset.getFloat("puntosJugador") + "\n";
+				top++;
+				posicion++;
 			}
 		} 
 		catch (SQLException e)
@@ -145,13 +148,7 @@ public class Modelo
 		}
 		return cartas;
 	}
-	
-//	public void actualizarTop10(Connection connection)
-//	{
-//		En progreso
-//	}
-	
-	//SONIDO al poner una carta
+	//SONIDO al colocar carta en el tablero	
 	public void SonidoCarta() 
 	{
 		File sf = new File("sonido\\Cartas.wav");
@@ -165,7 +162,7 @@ public class Modelo
 			Clip ol = (Clip) AudioSystem.getLine(info);
 			ol.open(ais);
 			ol.loop(Clip.LOOP_CONTINUOUSLY);
-			Thread.sleep(100);
+			Thread.sleep(150);
 			ol.close();
 		} catch (UnsupportedAudioFileException ee)
 		{
@@ -195,7 +192,7 @@ public class Modelo
 			Clip ol = (Clip) AudioSystem.getLine(info);
 			ol.open(ais);
 			ol.loop(Clip.LOOP_CONTINUOUSLY);
-			Thread.sleep(860);
+			Thread.sleep(1245);
 			ol.close();
 		} catch (UnsupportedAudioFileException ee)
 		{
@@ -211,7 +208,7 @@ public class Modelo
 			e.printStackTrace();
 		}
 	}
-	//SONIDO al empatar
+	//SONIDO Ronda
 	public void SonidoRonda() 
 	{
 		File sf = new File("sonido\\Ronda.wav");
@@ -225,7 +222,7 @@ public class Modelo
 			Clip ol = (Clip) AudioSystem.getLine(info);
 			ol.open(ais);
 			ol.loop(Clip.LOOP_CONTINUOUSLY);
-			Thread.sleep(618);
+			Thread.sleep(700);
 			ol.close();
 		} catch (UnsupportedAudioFileException ee)
 		{
@@ -255,7 +252,7 @@ public class Modelo
 			Clip ol = (Clip) AudioSystem.getLine(info);
 			ol.open(ais);
 			ol.loop(Clip.LOOP_CONTINUOUSLY);
-			Thread.sleep(450);
+			Thread.sleep(660);
 			ol.close();
 		} catch (UnsupportedAudioFileException ee)
 		{
@@ -285,7 +282,7 @@ public class Modelo
 			Clip ol = (Clip) AudioSystem.getLine(info);
 			ol.open(ais);
 			ol.loop(Clip.LOOP_CONTINUOUSLY);
-			Thread.sleep(525);
+			Thread.sleep(900);
 			ol.close();
 		} catch (UnsupportedAudioFileException ee)
 		{
@@ -299,6 +296,28 @@ public class Modelo
 		} catch (InterruptedException e)
 		{
 			e.printStackTrace();
+		}
+	}
+	
+	//Manual de usuario
+	public void webAyuda() 
+	{
+		String URL = "index.html";
+		
+		if (java.awt.Desktop.isDesktopSupported())
+		{
+			java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
+			if (desktop.isSupported(java.awt.Desktop.Action.BROWSE))
+			{
+				try
+				{
+					java.net.URI uri = new java.net.URI(URL);
+					desktop.browse(uri);
+				} catch (URISyntaxException | IOException ex)
+				{
+					System.out.println(ex.getMessage());
+				}
+			}
 		}
 	}
 }

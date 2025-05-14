@@ -34,6 +34,7 @@ public class Controlador implements WindowListener, ActionListener
 		v.btnSalir.addActionListener(this);
 		v.btnAceptar.addActionListener(this);
 		v.btnCancelar.addActionListener(this);
+		v.btnAyuda.addActionListener(this);
 	}
 	
 	@Override
@@ -61,8 +62,11 @@ public class Controlador implements WindowListener, ActionListener
 			vista.vPuntos.setVisible(true);
 		}
 		
-		//BOTÓN Ayuda (en progreso)
-		
+		//BOTÓN Ayuda
+		else if (e.getSource().equals(vista.btnAyuda))
+		{
+			modelo.webAyuda();
+		}
 		
 		//BOTÓN Salir
 		else if (e.getSource().equals(vista.btnSalir))
@@ -231,9 +235,6 @@ public class Controlador implements WindowListener, ActionListener
 			vista.vPuntos.dispose();
 			vista.vPrincipal.setVisible(true);
 		}
-		
-	//VENTANA Ayuda (en progreso)
-		//BOTÓN Volver
 		
 	//VENTANA Partida
 		//DIÁLOGO Confirmar Salir

@@ -1,5 +1,6 @@
 package es.studium.SieteYMedia;
 
+import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
@@ -47,9 +48,6 @@ public class Vista
 	Button btnVolver = new Button("Volver");
 	Panel panel6 = new Panel();
 	Modelo modelo = new Modelo();
-	
-	//VENTANA Ayuda (en progreso)
-	
 	
 	//VENTANA Nueva Partida (Nombre de jugadores)
 	Frame vJ2 = new Frame("Stiete y Media: Nueva Partida");
@@ -177,21 +175,18 @@ public class Vista
 		vNuevaPartida.add(panel5);
 		
 		//VENTANA Puntuaciones
-		vPuntos.setLayout(new GridLayout(2, 1));
-		vPuntos.setSize(270, 410);
+		vPuntos.setLayout(new BorderLayout());
+		vPuntos.setSize(270, 270);
 		vPuntos.setResizable(true);
 		vPuntos.setBackground(clrFondo);
 		vPuntos.setLocationRelativeTo(null);
 		lista.setFont(new Font("Arial", Font.BOLD, 13));
 		lista.setBackground(clrBotones);
 		lista.setFocusable(false);
-		vPuntos.add(lista);
+		vPuntos.add(lista, BorderLayout.CENTER);
 		btnVolver.setBackground(clrBotones);
 		panel6.add(btnVolver);
-		vPuntos.add(panel6);
-				
-		//VENTANA Ayuda (en progreso)
-		
+		vPuntos.add(panel6, BorderLayout.SOUTH);		
 		
 		//VENTANA Nueva Partida (Nombre Jugadores)
 		vJ2.setLayout(new FlowLayout());
