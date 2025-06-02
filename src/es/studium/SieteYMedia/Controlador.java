@@ -10,20 +10,24 @@ public class Controlador implements WindowListener, ActionListener
 {
 	Modelo modelo;
 	Vista vista;
+	Titulo titulo;
 	Connection connection = null;
 	int jugadores;
 	String jugador1, jugador2, jugador3, jugador4;
 	
-	public Controlador(Modelo m, Vista v) 
+	public Controlador(Modelo m, Vista v, Titulo t) 
 	{
 		modelo = m;
 		vista = v;
+		titulo = t;
 		//Ventanas
 		v.vPrincipal.addWindowListener(this);
 		v.vNuevaPartida.addWindowListener(this);
 		v.vPuntos.addWindowListener(this);
 		v.vNombres.addWindowListener(this);
 		v.dlgAux.addWindowListener(this);
+		titulo.addWindowListener(this);
+		
 		
 		//Botones
 		v.btnNueva.addActionListener(this);
@@ -35,14 +39,22 @@ public class Controlador implements WindowListener, ActionListener
 		v.btnAceptar.addActionListener(this);
 		v.btnCancelar.addActionListener(this);
 		v.btnAyuda.addActionListener(this);
+		titulo.btnJugar.addActionListener(this);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
+	//VENTANA Título
+		//BOTÓN Jugar
+		if (e.getSource().equals(titulo.btnJugar)) 
+		{
+			titulo.dispose();
+			vista.vPrincipal.setVisible(true);
+		}
 	//VENTANA MENÚ PRINCIPAL
 		//BOTÓN Nueva Partida
-		if (e.getSource().equals(vista.btnNueva))
+		else if (e.getSource().equals(vista.btnNueva))
 		{
 			vista.txfnombre1.setText("");
 			vista.txfnombre2.setText("");

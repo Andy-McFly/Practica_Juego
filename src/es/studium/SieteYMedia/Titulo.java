@@ -7,28 +7,23 @@ import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class Titulo extends Frame implements ActionListener
+public class Titulo extends Frame
 {
 	private static final long serialVersionUID = 1L;
 	//VENTANA Título
-	Vista vista;
 	Button btnJugar = new Button("Jugar");
 	Image titulo;
 	Toolkit herramienta;
 	
-	public Titulo(Vista v) 
+	public Titulo() 
 	{
-		vista = v;
 		herramienta = getToolkit();
 		titulo = herramienta.getImage("img\\Titulo.png");
 		setLayout(null);
 		setSize(626, 626);
 		setLocationRelativeTo(null);
 		setTitle("Siete y Media");
-		btnJugar.addActionListener(this);
 		btnJugar.setBounds(400, 500, 100, 40);
 		btnJugar.setFont(new Font("Arial", Font.BOLD, 16));
 		btnJugar.setBackground(new Color(240, 240, 209));
@@ -38,15 +33,5 @@ public class Titulo extends Frame implements ActionListener
 	public void paint(Graphics g) 
 	{
 		g.drawImage(titulo, 0, 0, this);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		if (e.getSource().equals(btnJugar)) 
-		{
-			dispose();
-			vista.vPrincipal.setVisible(true);
-		}
 	}
 }

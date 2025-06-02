@@ -6,7 +6,7 @@ public class Principal
 	{
 		Vista vista = new Vista();
 		Modelo modelo = new Modelo();
-		new Controlador(modelo, vista);
-		new Titulo(vista);
+		Titulo titulo = new Titulo();
+		new Controlador(modelo, vista, titulo);
 	}
 }
