@@ -21,25 +21,25 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class Modelo
 {
-	// Datos para el acceso
+	Random random = new Random();
+	
+	// Datos para el acceso BD
 	String driver = "com.mysql.cj.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/ranking";
 	String login = "adminJuego";
 	String password = "123456!";
 	String sentencia = "";
-	// Conexiones
+	// Conexiones BD
 	Connection connection = null;
 	Statement statement = null;
 	ResultSet resultset = null;
+	
 	//Sonido
 	File sf;
 	AudioFileFormat aff;
 	AudioInputStream ais;
-	
-	Random random = new Random();
 
-
-	// Conectar a la base de datos
+	//BD Conectar a la base de datos
 	public Connection conectar()
 	{
 		try
@@ -58,7 +58,7 @@ public class Modelo
 		return connection;
 	}
 
-	// Desconectar de la base de datos
+	//BD Desconectar de la base de datos
 	public void desconectar(Connection conexion)
 	{
 		try
@@ -73,7 +73,7 @@ public class Modelo
 		}
 	}
 	
-	// Consultar Ranking
+	//BD Consultar Ranking BD
 	public String obtenerRanking(Connection connection)
 	{
 		String contenidoTextarea = "";
@@ -84,6 +84,7 @@ public class Modelo
 			sentencia = "SELECT * FROM jugadores ORDER BY puntosJugador DESC , nombreJugador;";
 			statement = connection.createStatement();
 			resultset = statement.executeQuery(sentencia);
+			//Muestra sólo los diez primeros
 			while ((resultset.next()) && (top<10))
 			{
 				contenidoTextarea = contenidoTextarea + posicion + " -- " + resultset.getString("nombreJugador") + " -- " + resultset.getFloat("puntosJugador") + "\n";
@@ -98,7 +99,7 @@ public class Modelo
 		return contenidoTextarea;
 	}
 	
-	//Introducir nombres de ganadores
+	//BD Introducir nombres de ganadores BD
 	public boolean altaJugador(Connection connection, String nombre, float puntos)
 	{
 		boolean resultado = false;
@@ -115,7 +116,8 @@ public class Modelo
 		}
 		return resultado;
 	}
-	//Comprobar si algún nombre introducido existe ya en el ranking
+	
+	//BD Comprobar si algún nombre introducido existe ya en el ranking 
 	public boolean comprobarNombre(Connection connection, String nombreJugador)
 	{
 		boolean resultado = false;
@@ -136,11 +138,13 @@ public class Modelo
 		}
 		return resultado;
 	}
+	
 	//Barajar cartas
 	public String[] barajar(String[] cartas) 
 	{
 		for(int i = 0; i<cartas.length; i++) 
 		{
+			//Intercambio aleatorio de posiciones
 			int mezcla = random.nextInt(cartas.length);
 			String cambio = cartas[mezcla];
 			cartas[mezcla] = cartas[i];
@@ -148,6 +152,7 @@ public class Modelo
 		}
 		return cartas;
 	}
+	
 	//SONIDO al colocar carta en el tablero	
 	public void SonidoCarta() 
 	{
@@ -178,7 +183,8 @@ public class Modelo
 			e.printStackTrace();
 		}
 	}
-	//SONIDO al ganar
+	
+	//SONIDO Fin de Partida
 	public void SonidoGanador() 
 	{
 		File sf = new File("sonido\\Ganar.wav");
@@ -208,7 +214,8 @@ public class Modelo
 			e.printStackTrace();
 		}
 	}
-	//SONIDO Ronda
+	
+	//SONIDO Fin de Ronda
 	public void SonidoRonda() 
 	{
 		File sf = new File("sonido\\Ronda.wav");
@@ -238,7 +245,8 @@ public class Modelo
 			e.printStackTrace();
 		}
 	}
-	//SONIDO al plantarse
+	
+	//SONIDO Plantarse
 	public void SonidoPlantarse() 
 	{
 		File sf = new File("sonido\\Plantarse.wav");
@@ -268,6 +276,7 @@ public class Modelo
 			e.printStackTrace();
 		}
 	}
+	
 	//SONIDO Pasarse
 	public void SonidoPasarse() 
 	{
@@ -299,7 +308,7 @@ public class Modelo
 		}
 	}
 	
-	//Manual de usuario
+	//WEB Manual de usuario
 	public void webAyuda() 
 	{
 		String URL = "index.html";

@@ -22,8 +22,8 @@ public class Controlador implements WindowListener, ActionListener
 		v.vPrincipal.addWindowListener(this);
 		v.vNuevaPartida.addWindowListener(this);
 		v.vPuntos.addWindowListener(this);
-		v.vJ2.addWindowListener(this);
-		v.dlgNombreVacio.addWindowListener(this);
+		v.vNombres.addWindowListener(this);
+		v.dlgAux.addWindowListener(this);
 		
 		//Botones
 		v.btnNueva.addActionListener(this);
@@ -85,8 +85,8 @@ public class Controlador implements WindowListener, ActionListener
 				vista.lblJugador3.setVisible(false);
 				vista.txfnombre4.setVisible(false);
 				vista.lblJugador4.setVisible(false);
-				vista.vJ2.setTitle("2 Jugadores");
-				vista.vJ2.setVisible(true);
+				vista.vNombres.setTitle("2 Jugadores");
+				vista.vNombres.setVisible(true);
 				vista.vNuevaPartida.setVisible(false);
 			  }
 			else if(vista.chk3.getState()==true)
@@ -96,8 +96,8 @@ public class Controlador implements WindowListener, ActionListener
 				vista.lblJugador3.setVisible(true);
 				vista.txfnombre4.setVisible(false);
 				vista.lblJugador4.setVisible(false);
-				vista.vJ2.setTitle("3 Jugadores");
-				vista.vJ2.setVisible(true);
+				vista.vNombres.setTitle("3 Jugadores");
+				vista.vNombres.setVisible(true);
 				vista.vNuevaPartida.setVisible(false);
 			  }
 			else if(vista.chk4.getState()==true)
@@ -107,13 +107,13 @@ public class Controlador implements WindowListener, ActionListener
 				vista.lblJugador3.setVisible(true);
 				vista.txfnombre4.setVisible(true);
 				vista.lblJugador4.setVisible(true);
-				vista.vJ2.setTitle("4 Jugadores");
-				vista.vJ2.setVisible(true);
+				vista.vNombres.setTitle("4 Jugadores");
+				vista.vNombres.setVisible(true);
 				vista.vNuevaPartida.setVisible(false);
 			  }
 		}
-		
-		// BOTÓN Iniciar Partida (Escribir nombre de jugadores)
+	//VENTANA NUEVA PARTIDA (Escribir nombre de jugadores)
+		// BOTÓN Iniciar Partida
 		else if (e.getSource().equals(vista.btnIniciar))
 		{
 			jugador1 = vista.txfnombre1.getText();
@@ -130,17 +130,17 @@ public class Controlador implements WindowListener, ActionListener
 					//Si los nombres no son iguales
 					if(!jugador1.equals(jugador2)) 
 					{
-						//Comprobar que los nombres no esén ya registrados en el Top 10
+						//Comprobar que los nombres no esén ya registrados.
 						connection = modelo.conectar();
 						if ((modelo.comprobarNombre(connection, jugador1)) || (modelo.comprobarNombre(connection, jugador2))) 
 						{
 							vista.lblAviso.setText("El nombre introducido ya existe");
-							vista.dlgNombreVacio.setVisible(true);
+							vista.dlgAux.setVisible(true);
 						}
 						else 
 						{
 							new Partida(vista, modelo);
-							vista.vJ2.dispose();
+							vista.vNombres.dispose();
 						}
 						modelo.desconectar(connection);
 					}
@@ -148,13 +148,13 @@ public class Controlador implements WindowListener, ActionListener
 					else 
 					{
 						vista.lblAviso.setText("Los nombres deben ser distintos");
-						vista.dlgNombreVacio.setVisible(true);
+						vista.dlgAux.setVisible(true);
 					}
 				}
 				else 
 				{
 					vista.lblAviso.setText("Escribe todos los nombres");
-					vista.dlgNombreVacio.setVisible(true);
+					vista.dlgAux.setVisible(true);
 				}
 				break;
 				
@@ -168,12 +168,12 @@ public class Controlador implements WindowListener, ActionListener
 								|| (modelo.comprobarNombre(connection, jugador3))) 
 						{
 							vista.lblAviso.setText("El nombre introducido ya existe");
-							vista.dlgNombreVacio.setVisible(true);
+							vista.dlgAux.setVisible(true);
 						}
 						else 
 						{
 							new Partida(vista, modelo);
-							vista.vJ2.dispose();
+							vista.vNombres.dispose();
 						}
 						modelo.desconectar(connection);
 					}
@@ -181,13 +181,13 @@ public class Controlador implements WindowListener, ActionListener
 					else 
 					{
 						vista.lblAviso.setText("Los nombres deben ser distintos");
-						vista.dlgNombreVacio.setVisible(true);
+						vista.dlgAux.setVisible(true);
 					}
 				}
 				else 
 				{
 					vista.lblAviso.setText("Escribe todos los nombres");
-					vista.dlgNombreVacio.setVisible(true);
+					vista.dlgAux.setVisible(true);
 				}
 				break;
 				
@@ -202,12 +202,12 @@ public class Controlador implements WindowListener, ActionListener
 								|| (modelo.comprobarNombre(connection, jugador3)) || (modelo.comprobarNombre(connection, jugador4))) 
 						{
 							vista.lblAviso.setText("El nombre introducido ya existe");
-							vista.dlgNombreVacio.setVisible(true);
+							vista.dlgAux.setVisible(true);
 						}
 						else 
 						{
 							new Partida(vista, modelo);
-							vista.vJ2.dispose();
+							vista.vNombres.dispose();
 						}
 						modelo.desconectar(connection);
 					}
@@ -216,13 +216,13 @@ public class Controlador implements WindowListener, ActionListener
 					else 
 					{
 						vista.lblAviso.setText("Los nombres deben ser distintos");
-						vista.dlgNombreVacio.setVisible(true);
+						vista.dlgAux.setVisible(true);
 					}
 				}
 				else 
 				{
 					vista.lblAviso.setText("Escribe todos los nombres");
-					vista.dlgNombreVacio.setVisible(true);
+					vista.dlgAux.setVisible(true);
 				}
 				break;
 			}
@@ -265,13 +265,13 @@ public class Controlador implements WindowListener, ActionListener
 			vista.vPuntos.dispose();
 			vista.vPrincipal.setVisible(true);
 		}
-		else if(e.getSource().equals(vista.dlgNombreVacio)) 
+		else if(e.getSource().equals(vista.dlgAux)) 
 		{
-			vista.dlgNombreVacio.dispose();
+			vista.dlgAux.dispose();
 		}
-		else if(e.getSource().equals(vista.vJ2)) 
+		else if(e.getSource().equals(vista.vNombres)) 
 		{
-			vista.vJ2.dispose();
+			vista.vNombres.dispose();
 			vista.vPrincipal.setVisible(true);
 		}
 	}
